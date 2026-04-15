@@ -1,5 +1,5 @@
 //> using scala "3.3.1"
-//> using dep "org.duckdb:duckdb_jdbc:1.5.1.0"
+//> using dep "org.duckdb:duckdb_jdbc:1.5.2.0"
 //> using dep "tech.tablesaw:tablesaw-core:0.44.4"
 
 import java.sql.DriverManager

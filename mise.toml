@@ -178,17 +178,60 @@ run = "raku test.raku"
 dir = "raku"
 
 [tasks.zig-main]
-run = "zig run main.zig"
+run = """
+set -euo pipefail
+arch=$(uname -m)
+os=$(uname -s)
+case "$arch" in
+  arm64|aarch64) zig_arch="aarch64" ;;
+  x86_64|amd64) zig_arch="x86_64" ;;
+  *) zig_arch="$arch" ;;
+esac
+case "$os" in
+  Darwin) zig_os="macos" ;;
+  Linux) zig_os="linux" ;;
+  *) echo "Unsupported OS for zig task: $os" >&2; exit 1 ;;
+esac
+zig run -target "${zig_arch}-${zig_os}" main.zig
+"""
 dir = "zig"
 
 [tasks.zig-help]
-run = "zig run main.zig -- help"
+run = """
+set -euo pipefail
+arch=$(uname -m)
+os=$(uname -s)
+case "$arch" in
+  arm64|aarch64) zig_arch="aarch64" ;;
+  x86_64|amd64) zig_arch="x86_64" ;;
+  *) zig_arch="$arch" ;;
+esac
+case "$os" in
+  Darwin) zig_os="macos" ;;
+  Linux) zig_os="linux" ;;
+  *) echo "Unsupported OS for zig task: $os" >&2; exit 1 ;;
+esac
+zig run -target "${zig_arch}-${zig_os}" main.zig -- help
+"""
 dir = "zig"
 
 [tasks.zig-build]
 run = """
+set -euo pipefail
 mkdir -p ../tmp/build
-zig build-exe main.zig -femit-bin=../tmp/build/zig-main
+arch=$(uname -m)
+os=$(uname -s)
+case "$arch" in
+  arm64|aarch64) zig_arch="aarch64" ;;
+  x86_64|amd64) zig_arch="x86_64" ;;
+  *) zig_arch="$arch" ;;
+esac
+case "$os" in
+  Darwin) zig_os="macos" ;;
+  Linux) zig_os="linux" ;;
+  *) echo "Unsupported OS for zig task: $os" >&2; exit 1 ;;
+esac
+zig build-exe main.zig -target "${zig_arch}-${zig_os}" -femit-bin=../tmp/build/zig-main
 """
 dir = "zig"
 
