@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/F1bonacc1/process-compose/main/schemas/process-compose-schema.json
+version: "0.5"
+
+processes:
+  charm-ssh-server:
+    command: "charm serve --data-dir ./tmp/ --ssh-port ${CHARM_SSH_PORT:-35353} --http-port ${CHARM_HTTP_PORT:-35354} --stats-port ${CHARM_STATS_PORT:-35355} --health-port ${CHARM_HEALTH_PORT:-35356}"
+    availability:
+      restart: always
+    liveness_probe:
+      http_get:
+        host: ${CHARM_HOST:-localhost}
+        path: /health
+        port: ${CHARM_HEALTH_PORT:-35356}
+      initial_delay_seconds: 2
+      period_seconds: 5
+      timeout_seconds: 2
+      failure_threshold: 3
+    readiness_probe:
+      http_get:
+        host: ${CHARM_HOST:-localhost}
+        path: /health
+        port: ${CHARM_HEALTH_PORT:-35356}
+      initial_delay_seconds: 2
+      period_seconds: 5
+      timeout_seconds: 2
+      success_threshold: 1
+      failure_threshold: 10
+
+  main-go:
+    command: "./scripts/run-main.sh"
+    depends_on:
+      charm-ssh-server:
+        condition: process_healthy
+    ready_log_line: "Wish + Charm demo listening on ssh"
+    availability:
+      restart: on_failure

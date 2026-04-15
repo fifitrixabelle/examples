@@ -1,0 +1,24 @@
+.aider*
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Rust
+target/
+
+# Gleam
+gleam/build/
+
+# Scala
+scala/.bsp/
+scala/.scala-build/
+
+# General
+.DS_Store
+.cache/
+tmp/
+go/tmp/
+go/data/.ssh/

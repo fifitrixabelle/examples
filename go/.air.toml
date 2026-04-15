@@ -1,0 +1,19 @@
+# See https://github.com/air-verse/air for configuration details
+root = "."
+tmp_dir = "./tmp/"
+
+[build]
+  cmd = "go build -o ./tmp/main ."
+  bin = "./tmp/main"
+  delay = 100
+
+[watch]
+  dir = "."
+  include_file = ["main.go"]
+
+[log]
+  time = false
+
+[serve]
+  cmd = "./tmp/main"
+  delay = 100

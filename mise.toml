@@ -1,0 +1,229 @@
+[tools]
+python = "3.14.3"
+uv = "0.10.12"
+go = "1.26.1"
+erlang = "28.4.1"
+elixir = "1.19.5-otp-28"
+ruby = "4.0.2"
+rust = "1.94.0"
+perl = "5.42.1.0"
+raku = "2026.02"
+zig = "0.15.2"
+clojure = "1.12.4.1618"
+lua = "5.5.0"
+julia = "1.12.5"
+scala-cli = "1.12.5"
+java = "temurin-21.0.10+7.0.LTS"
+bun = "1.3.11"
+deno = "2.7.7"
+crystal = "1.19.1"
+gleam = "1.15.2"
+
+[tasks.go-test]
+run = "go test ./..."
+dir = "go"
+
+[tasks.go-fun]
+run = "go run fun.go"
+dir = "go"
+
+[tasks.default]
+run = """
+set -euo pipefail
+
+mise run build
+echo
+
+python scripts/mise_progress.py \
+  --label "Running all language demos via mise" \
+  go-fun \
+  bun-main \
+  deno-main \
+  crystal-main \
+  gleam-main \
+  py-polars-duckdb \
+  elixir-explorer \
+  ruby-main \
+  rust-duckdb-polars \
+  raku-main \
+  raku-test \
+  zig-main \
+  lua-main \
+  clojure-main \
+  julia-main \
+  perl-main \
+  scala-main
+
+echo "============================================================"
+echo "All demos completed successfully"
+echo "============================================================"
+"""
+
+[tasks.build]
+run = """
+set -euo pipefail
+
+python scripts/mise_progress.py \
+  --label "Building compiled examples via mise" \
+  go-build \
+  rust-build \
+  crystal-build \
+  gleam-build \
+  elixir-build \
+  zig-build \
+  scala-build
+
+echo "============================================================"
+echo "All buildable examples compiled successfully"
+echo "============================================================"
+"""
+
+[tasks.go-main]
+run = "go run ."
+dir = "go"
+
+[tasks.go-build]
+run = """
+mkdir -p ../tmp/build/go
+go build -o ../tmp/build/go/main main.go
+go build -o ../tmp/build/go/fun fun.go
+"""
+dir = "go"
+
+[tasks.bun-main]
+run = "bun run main.ts"
+dir = "bun"
+
+[tasks.deno-main]
+run = "deno run main.ts"
+dir = "deno"
+
+[tasks.crystal-main]
+run = "crystal run main.cr"
+dir = "crystal"
+
+[tasks.crystal-build]
+run = """
+mkdir -p ../tmp/build
+crystal build main.cr -o ../tmp/build/crystal-main
+"""
+dir = "crystal"
+
+[tasks.gleam-main]
+run = "gleam run"
+dir = "gleam"
+
+[tasks.gleam-build]
+run = "gleam build"
+dir = "gleam"
+
+[tasks.py-main]
+run = "uv run python main.py"
+dir = "python"
+
+[tasks.py-polars-duckdb]
+run = "uv run python polars_duckdb_demo.py"
+dir = "python"
+
+[tasks.py-marimo]
+run = "uv run marimo run marimo_data_app.py"
+dir = "python"
+
+[tasks.py-test]
+run = "uv run pytest"
+dir = "python"
+
+[tasks.elixir-test]
+run = "mix test"
+dir = "elixir/hello_app"
+
+[tasks.elixir-explorer]
+run = "elixir explorer_demo.exs"
+dir = "elixir/hello_app"
+
+[tasks.elixir-build]
+run = "mix compile"
+dir = "elixir/hello_app"
+
+[tasks.ruby-main]
+run = "bundle install && bundle exec ruby -W0 main.rb"
+dir = "ruby"
+
+[tasks.ruby-sinatra]
+run = "bundle install && bundle exec ruby -W0 sinatra.rb"
+dir = "ruby"
+
+[tasks.ruby-duckdb-daru]
+run = "bundle install && ruby duckdb_daru_demo.rb"
+dir = "ruby"
+
+[tasks.rust-hello]
+run = "cargo run --bin hello"
+dir = "rust"
+
+[tasks.rust-duckdb-polars]
+run = "cargo run --bin duckdb_polars_demo"
+dir = "rust"
+
+[tasks.rust-build]
+run = "cargo build --bins"
+dir = "rust"
+
+[tasks.raku-main]
+run = "raku main.raku"
+dir = "raku"
+
+[tasks.raku-test]
+run = "raku test.raku"
+dir = "raku"
+
+[tasks.zig-main]
+run = "zig run main.zig"
+dir = "zig"
+
+[tasks.zig-help]
+run = "zig run main.zig -- help"
+dir = "zig"
+
+[tasks.zig-build]
+run = """
+mkdir -p ../tmp/build
+zig build-exe main.zig -femit-bin=../tmp/build/zig-main
+"""
+dir = "zig"
+
+[tasks.lua-main]
+run = "lua main.lua"
+dir = "lua"
+
+[tasks.clojure-main]
+run = "clojure -M main.clj"
+dir = "clojure"
+
+[tasks.clojure-tablecloth-duckdb]
+run = "clojure -Sdeps '{:deps {org.clojure/clojure {:mvn/version \"1.11.1\"} org.duckdb/duckdb_jdbc {:mvn/version \"1.2.1\"} com.github.seancorfield/next.jdbc {:mvn/version \"1.3.1002\"} scicloj/tablecloth {:mvn/version \"7.029\"}}}' -M tablecloth_duckdb_demo.clj"
+dir = "clojure"
+
+[tasks.julia-main]
+run = "julia main.jl"
+dir = "julia"
+
+[tasks.julia-duckdb-dataframes]
+run = "julia duckdb_dataframes_demo.jl"
+dir = "julia"
+
+[tasks.perl-main]
+run = "perl main.pl"
+dir = "perl"
+
+[tasks.scala-main]
+run = "scala-cli run Main.scala --server=false"
+dir = "scala"
+
+[tasks.scala-duckdb-tablesaw]
+run = "scala-cli run duckdb_tablesaw_demo.sc --server=false"
+dir = "scala"
+
+[tasks.scala-build]
+run = "scala-cli compile Main.scala duckdb_tablesaw_demo.sc --server=false"
+dir = "scala"

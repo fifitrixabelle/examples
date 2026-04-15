@@ -1,0 +1,106 @@
+# List available commands
+default:
+    @just --list
+
+# Install dependencies
+install:
+    uv sync
+
+# Run tests
+test:
+    uv run pytest
+
+# Run tests with verbose output
+test-verbose:
+    uv run pytest -v
+
+# Run tests with unittest
+test-unittest:
+    uv run python test_main.py
+
+# Lint code with ruff
+lint:
+    uv run ruff check .
+
+# Lint and fix code with ruff
+lint-fix:
+    uv run ruff check . --fix
+
+# Format code with ruff
+format:
+    uv run ruff format .
+
+# Run the main application
+run:
+    uv run python main.py
+
+# Clean up cache and temporary files
+clean:
+    find . -type d -name __pycache__ -delete
+    find . -type f -name "*.pyc" -delete
+    find . -type d -name "*.egg-info" -exec rm -rf {} +
+
+# Run linting and tests
+check: lint test
+
+# Install, check, and format everything
+all: install check format
+
+# Update dependencies
+update:
+    uv lock --upgrade
+    uv sync
+
+# Show project info
+info:
+    @echo "Project: $(basename $(pwd))"
+    @echo "Python version: $(uv run python --version)"
+    @echo "Dependencies:"
+    @uv tree
+
+# RPG Game Commands (Interactive Tabletop Experience)
+
+# Create a new random character
+create-character:
+    uv run python rpg_cli.py create-character
+
+# Create a new random quest
+create-quest:
+    uv run python rpg_cli.py create-quest
+
+# List all characters
+list-characters:
+    uv run python rpg_cli.py list-characters
+
+# List all available quests
+list-quests:
+    uv run python rpg_cli.py list-quests
+
+# Show detailed character info
+show-character name:
+    uv run python rpg_cli.py show-character "{{name}}"
+
+# Show detailed quest info
+show-quest title:
+    uv run python rpg_cli.py show-quest "{{title}}"
+
+# Assign a quest to a character
+assign-quest character_name quest_title:
+    uv run python rpg_cli.py assign-quest "{{character_name}}" "{{quest_title}}"
+
+# Complete a quest for a character
+complete-quest character_name quest_title:
+    uv run python rpg_cli.py complete-quest "{{character_name}}" "{{quest_title}}"
+
+# Start the interactive RPG session
+play:
+    uv run python rpg_cli.py interactive
+
+# Reset the game (clear all data)
+reset-game:
+    @echo "⚠️  This will delete all characters and quests!"
+    @read -r -p "Are you sure? (y/N): " confirm; if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then uv run python rpg_cli.py reset; else echo "Reset cancelled."; fi
+
+# Show game statistics
+game-stats:
+    uv run python rpg_cli.py game-stats

@@ -1,0 +1,47 @@
+[project]
+name = "python"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "duckdb>=1.2.0",
+    "faker>=36.1.1",
+    "marimo>=0.19.11",
+    "pendulum>=3.0.0",
+    "playwright>=1.50.0",
+    "polars>=1.38.1",
+    "pydantic>=2.10.6",
+    "ruff>=0.9.7",
+    "serena-agent>=0.1.4",
+    "streamlit>=1.42.2",
+    "uplot>=0.1.61",
+    "uuid7>=0.1.0",
+    "watchdog>=6.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
