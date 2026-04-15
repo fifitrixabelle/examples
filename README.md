@@ -1,4 +1,4 @@
-# test
+# Examples
 
 Personal multi-language playground managed with `mise`.
 
@@ -46,6 +46,7 @@ mise run build
 ## Task Reference
 
 ### Go
+
 ```bash
 mise run build
 mise run go-build
@@ -55,28 +56,33 @@ mise run go-main
 ```
 
 ### Bun
+
 ```bash
 mise run bun-main
 ```
 
 ### Deno
+
 ```bash
 mise run deno-main
 ```
 
 ### Crystal
+
 ```bash
 mise run crystal-build
 mise run crystal-main
 ```
 
 ### Gleam
+
 ```bash
 mise run gleam-build
 mise run gleam-main
 ```
 
 ### Python
+
 ```bash
 mise run py-test
 mise run py-main
@@ -85,6 +91,7 @@ mise run py-marimo
 ```
 
 ### Elixir
+
 ```bash
 mise run elixir-build
 mise run elixir-test
@@ -92,6 +99,7 @@ mise run elixir-explorer
 ```
 
 ### Ruby
+
 ```bash
 mise run ruby-main
 mise run ruby-sinatra
@@ -99,6 +107,7 @@ mise run ruby-duckdb-daru
 ```
 
 ### Rust
+
 ```bash
 mise run rust-build
 mise run rust-hello
@@ -106,12 +115,14 @@ mise run rust-duckdb-polars
 ```
 
 ### Raku
+
 ```bash
 mise run raku-main
 mise run raku-test
 ```
 
 ### Zig
+
 ```bash
 mise run zig-build
 mise run zig-main
@@ -119,28 +130,33 @@ mise run zig-help
 ```
 
 ### Lua
+
 ```bash
 mise run lua-main
 ```
 
 ### Clojure
+
 ```bash
 mise run clojure-main
 mise run clojure-tablecloth-duckdb
 ```
 
 ### Julia
+
 ```bash
 mise run julia-main
 mise run julia-duckdb-dataframes
 ```
 
 ### Perl
+
 ```bash
 mise run perl-main
 ```
 
 ### Scala
+
 ```bash
 mise run scala-build
 mise run scala-main
