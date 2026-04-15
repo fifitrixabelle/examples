@@ -1,7 +1,7 @@
 [tools]
 python = "3.14.3"
 uv = "0.10.12"
-go = "1.26.1"
+go = "1.26.2"
 erlang = "28.4.1"
 elixir = "1.19.5-otp-28"
 ruby = "4.0.2"
@@ -24,7 +24,7 @@ run = "go test ./..."
 dir = "go"
 
 [tasks.go-fun]
-run = "go run fun.go"
+run = "go run ./cmd/fun"
 dir = "go"
 
 [tasks.default]
@@ -86,7 +86,7 @@ dir = "go"
 run = """
 mkdir -p ../tmp/build/go
 go build -o ../tmp/build/go/main main.go
-go build -o ../tmp/build/go/fun fun.go
+go build -o ../tmp/build/go/fun ./cmd/fun
 """
 dir = "go"
 

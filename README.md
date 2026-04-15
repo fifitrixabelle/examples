@@ -4,7 +4,7 @@ Personal multi-language playground managed with `mise`.
 
 ## Languages And Demos
 
-- `go/`: Wish + Charm SSH DuckDB manager (`main.go`) and a small standalone demo (`fun.go`).
+- `go/`: Wish + Charm SSH DuckDB manager (`main.go`) and a small standalone demo (`cmd/fun/main.go`).
 - `bun/`: Bun TypeScript demo (`main.ts`).
 - `deno/`: Deno TypeScript demo (`main.ts`).
 - `crystal/`: Crystal demo (`main.cr`).
