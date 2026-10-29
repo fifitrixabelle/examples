@@ -10,7 +10,3 @@ path = "main.rs"
 [[bin]]
 name = "duckdb_polars_demo"
 path = "duckdb_polars_demo.rs"
-
-[dependencies]
-duckdb = { version = "1", features = ["bundled"] }
-polars = { version = "0.46", features = ["fmt"] }

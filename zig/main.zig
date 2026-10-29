@@ -16,14 +16,13 @@ const ansi = struct {
     const white = "\x1b[97m";
 };
 
-pub fn main() !void {
+pub fn main(init: std.process.Init) !void {
     const allocator = std.heap.page_allocator;
 
-    const args = try std.process.argsAlloc(allocator);
-    defer std.process.argsFree(allocator, args);
+    const args = try init.minimal.args.toSlice(init.arena.allocator());
 
     if (args.len <= 1) {
-        try runShowcase(allocator);
+        try runShowcase(allocator, init.io);
         return;
     }
 
@@ -72,7 +71,7 @@ pub fn main() !void {
         else
             48;
 
-        try printRandomWalk(allocator, steps);
+        try printRandomWalk(allocator, init.io, steps);
         return;
     }
 
@@ -80,7 +79,7 @@ pub fn main() !void {
     printHelp();
 }
 
-fn runShowcase(allocator: std.mem.Allocator) !void {
+fn runShowcase(allocator: std.mem.Allocator, io: std.Io) !void {
     std.debug.print("{s}{s}╭──────────────── Zig Cosmic Showcase ────────────────╮{s}\n", .{ ansi.magenta, ansi.bold, ansi.reset });
     std.debug.print("{s}  fractals, math, collatz, and a jittery random walk{s}\n", .{ ansi.cyan, ansi.reset });
     std.debug.print("{s}  boot sequence: prism -> arithmetic -> comet -> drift{s}\n", .{ ansi.white, ansi.reset });
@@ -97,7 +96,7 @@ fn runShowcase(allocator: std.mem.Allocator) !void {
     std.debug.print("  factorial(10)    -> {s}{d}{s}\n", .{ ansi.green, example_factorial, ansi.reset });
 
     printCollatzSummary(27);
-    try printRandomWalk(allocator, 32);
+    try printRandomWalk(allocator, io, 32);
 }
 
 fn printSierpinski(rows: usize, glyph: u8) void {
@@ -183,9 +182,9 @@ fn collatzNext(n: u64) u64 {
     return 3 * n + 1;
 }
 
-fn printRandomWalk(allocator: std.mem.Allocator, steps: usize) !void {
+fn printRandomWalk(allocator: std.mem.Allocator, io: std.Io, steps: usize) !void {
     const bounded_steps = if (steps < 4) 4 else steps;
-    const now_ms = std.time.milliTimestamp();
+    const now_ms = std.Io.Timestamp.now(io, .real).toMilliseconds();
     const seed: u64 = if (now_ms >= 0) @intCast(now_ms) else @intCast(-now_ms);
     var rng = Random64.init(seed);
 
